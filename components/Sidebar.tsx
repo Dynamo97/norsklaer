@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { LayoutDashboard, WalletCards, GraduationCap, BookOpen, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import UserProfile from './UserProfile';
 
 const navItems = [
     { href: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -54,8 +55,8 @@ export default function Sidebar() {
                                     href={item.href}
                                     onClick={() => setIsOpen(false)}
                                     className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive
-                                            ? 'bg-zinc-800 text-white shadow-lg shadow-zinc-900/20'
-                                            : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-white'
+                                        ? 'bg-zinc-800 text-white shadow-lg shadow-zinc-900/20'
+                                        : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-white'
                                         }`}
                                     aria-current={isActive ? 'page' : undefined}
                                 >
@@ -67,15 +68,7 @@ export default function Sidebar() {
                     </nav>
 
                     <div className="mt-auto pt-6 border-t border-zinc-800">
-                        <div className="flex items-center space-x-3 px-2">
-                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center font-bold text-xs text-white shadow-md">
-                                US
-                            </div>
-                            <div className="text-sm">
-                                <p className="font-semibold text-zinc-200">User Profile</p>
-                                <p className="text-xs text-zinc-500">Learner</p>
-                            </div>
-                        </div>
+                        <UserProfile />
                     </div>
                 </div>
             </motion.aside>
