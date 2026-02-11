@@ -62,7 +62,7 @@ export default function TestSession({ initialWords }: TestSessionProps) {
         setInput('');
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!input.trim() || feedback) return;
 
@@ -77,6 +77,12 @@ export default function TestSession({ initialWords }: TestSessionProps) {
             setFeedback('incorrect');
             setMistakes(prev => [...prev, currentWord]);
         }
+
+        // Record the attempt in the database (non-blocking)
+        const { recordWordAttempt } = await import('@/app/actions/progress');
+        recordWordAttempt(currentWord.id, isCorrect).catch(err => {
+            console.error('Failed to record progress:', err);
+        });
     };
 
     const handleNext = () => {
@@ -147,8 +153,8 @@ export default function TestSession({ initialWords }: TestSessionProps) {
                             onChange={(e) => setInput(e.target.value)}
                             disabled={feedback !== null}
                             className={`w-full p-5 text-center text-2xl font-medium bg-zinc-50 border-2 rounded-2xl focus:outline-none transition-all placeholder:text-zinc-300 ${feedback === 'correct' ? 'border-green-500 bg-green-50 text-green-800' :
-                                    feedback === 'incorrect' ? 'border-red-500 bg-red-50 text-red-800' :
-                                        'border-zinc-200 focus:border-purple-500 focus:bg-white text-zinc-900 shadow-inner'
+                                feedback === 'incorrect' ? 'border-red-500 bg-red-50 text-red-800' :
+                                    'border-zinc-200 focus:border-purple-500 focus:bg-white text-zinc-900 shadow-inner'
                                 }`}
                             placeholder="Type answer..."
                             autoComplete="off"
@@ -200,8 +206,8 @@ export default function TestSession({ initialWords }: TestSessionProps) {
                                     ref={nextButtonRef}
                                     onClick={handleNext}
                                     className={`px-10 py-3.5 rounded-xl font-bold text-white transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:ring-4 ${feedback === 'correct'
-                                            ? 'bg-green-600 hover:bg-green-700 focus:ring-green-200'
-                                            : 'bg-red-600 hover:bg-red-700 focus:ring-red-200'
+                                        ? 'bg-green-600 hover:bg-green-700 focus:ring-green-200'
+                                        : 'bg-red-600 hover:bg-red-700 focus:ring-red-200'
                                         }`}
                                 >
                                     Next Word
