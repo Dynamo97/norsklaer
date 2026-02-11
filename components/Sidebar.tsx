@@ -5,7 +5,8 @@ import { usePathname } from 'next/navigation';
 import { LayoutDashboard, WalletCards, GraduationCap, BookOpen, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import UserProfile from './UserProfile';
+// UserProfile is passed as a prop from layout.tsx
+
 
 const navItems = [
     { href: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -14,7 +15,7 @@ const navItems = [
     { href: '/grammar', label: 'Grammar Guide', icon: BookOpen },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ userProfile }: { userProfile: React.ReactNode }) {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -68,7 +69,7 @@ export default function Sidebar() {
                     </nav>
 
                     <div className="mt-auto pt-6 border-t border-zinc-800">
-                        <UserProfile />
+                        {userProfile}
                     </div>
                 </div>
             </motion.aside>

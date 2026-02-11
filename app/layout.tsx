@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Sidebar from '@/components/Sidebar';
+import UserProfile from '@/components/UserProfile';
 import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ['latin'] });
@@ -21,7 +22,7 @@ export default function RootLayout({
             <body className={`${inter.className} bg-slate-50 text-slate-900`}>
                 <SessionProvider>
                     <div className="flex min-h-screen">
-                        <Sidebar />
+                        <Sidebar userProfile={<UserProfile />} />
                         <main id="main-content" className="flex-1 p-6 md:p-12 overflow-y-auto pt-20 md:pt-12 transition-all duration-300">
                             <div className="max-w-6xl mx-auto">
                                 {children}
